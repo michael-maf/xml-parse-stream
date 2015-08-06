@@ -37,22 +37,5 @@ var samples = {
     }
 };
 
-var genXmlFile = function(name, callback) {
-  
-  generator(samples[name].file, samples[name].image, true, function(err, result) {
-    console.log("here have a",name,"file");
-    result.pipe(fs.createWriteStream(name+"_copy.dae"));
-    return callback();
-  });
-  
-};
-
-genXmlFile("cat", function() {
-  console.log("there you go");
-});
-
-if(process.argv[2] === 'kill') {
-  setTimeout(function() {
-    child_process.exec("rm "+path.join(process.cwd()+"/write.dae"));
-  }, 3000);
-}
+//should work like this
+fs.createReadStream(samples.cow.file).pipe(generator).pipe(fs.createWriteStream('./write.dae'));
